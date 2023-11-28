@@ -1,5 +1,6 @@
 package com.devinhouse.pharma.controller;
 
+import com.devinhouse.pharma.dto.ErrorResponse;
 import com.devinhouse.pharma.dto.FarmaciaResponse;
 import com.devinhouse.pharma.model.Farmacia;
 import com.devinhouse.pharma.service.FarmaciaService;
@@ -36,4 +37,17 @@ public class FarmaciaController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{cnpj}")
+    public ResponseEntity<?> consultarFarmaciaPorCnpj(@PathVariable("cnpj") Long cnpj) {
+        Farmacia farmacia = farmaciaService.consultarFarmaciaPorCnpj(cnpj);
+
+        if (farmacia != null) {
+            FarmaciaResponse response = mapper.map(farmacia, FarmaciaResponse.class);
+            return ResponseEntity.ok(response);
+        }
+
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, "Farmácia não encontrada");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+
+    }
 }
