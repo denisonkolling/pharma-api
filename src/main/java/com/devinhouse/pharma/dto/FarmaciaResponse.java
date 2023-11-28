@@ -1,13 +1,9 @@
 package com.devinhouse.pharma.dto;
 
 import com.devinhouse.pharma.model.Endereco;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class FarmaciaResponse {
 
     private Long cnpj;

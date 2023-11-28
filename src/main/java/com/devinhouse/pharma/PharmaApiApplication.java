@@ -1,5 +1,6 @@
 package com.devinhouse.pharma;
 
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +16,6 @@ public class PharmaApiApplication {
 	@Bean
 	public ModelMapper getModelMapper() {
 		var mapper = new ModelMapper();
-		mapper.getConfiguration().setSkipNullEnabled(true);
 		return mapper;
 	}
 
