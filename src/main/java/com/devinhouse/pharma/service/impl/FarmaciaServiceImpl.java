@@ -1,6 +1,7 @@
 package com.devinhouse.pharma.service.impl;
 
 import com.devinhouse.pharma.dto.ErrorResponse;
+import com.devinhouse.pharma.exception.RegistroNaoEncontradoException;
 import com.devinhouse.pharma.model.Farmacia;
 import com.devinhouse.pharma.repository.FarmaciaRepository;
 import com.devinhouse.pharma.service.FarmaciaService;
@@ -28,6 +29,6 @@ public class FarmaciaServiceImpl implements FarmaciaService {
 
     @Override
     public Farmacia consultarFarmaciaPorCnpj(Long cnpj) {
-        return farmaciaRepository.findById(cnpj).orElse(null);
+        return farmaciaRepository.findById(cnpj).orElseThrow(() -> new RegistroNaoEncontradoException("CNPJ", cnpj));
     }
 }

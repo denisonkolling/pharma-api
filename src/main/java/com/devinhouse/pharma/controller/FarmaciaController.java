@@ -40,14 +40,8 @@ public class FarmaciaController {
     @GetMapping("/{cnpj}")
     public ResponseEntity<?> consultarFarmaciaPorCnpj(@PathVariable("cnpj") Long cnpj) {
         Farmacia farmacia = farmaciaService.consultarFarmaciaPorCnpj(cnpj);
-
-        if (farmacia != null) {
-            FarmaciaResponse response = mapper.map(farmacia, FarmaciaResponse.class);
-            return ResponseEntity.ok(response);
-        }
-
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, "Farmácia não encontrada");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-
+        FarmaciaResponse response = mapper.map(farmacia, FarmaciaResponse.class);
+        return ResponseEntity.ok(response);
     }
+
 }

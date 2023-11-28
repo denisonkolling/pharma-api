@@ -1,18 +1,16 @@
 package com.devinhouse.pharma.dto;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public class ErrorResponse {
 
-    private HttpStatus status;
+    private String titulo;
 
-    private String error;
+    private String mensagem;
 
-    public ErrorResponse(HttpStatus status, String message) {
-        this.status = status;
-        this.error = message;
+    public ErrorResponse(String titulo, String mensage) {
+        this.titulo = titulo;
+        this.mensagem = mensage;
     }
-
 }
