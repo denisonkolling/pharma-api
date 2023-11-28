@@ -38,7 +38,7 @@ public class FarmaciaController {
     }
 
     @GetMapping("/{cnpj}")
-    public ResponseEntity<?> consultarFarmaciaPorCnpj(@PathVariable("cnpj") Long cnpj) {
+    public ResponseEntity<FarmaciaResponse> consultarFarmaciaPorCnpj(@PathVariable("cnpj") Long cnpj) {
         Farmacia farmacia = farmaciaService.consultarFarmaciaPorCnpj(cnpj);
         FarmaciaResponse response = mapper.map(farmacia, FarmaciaResponse.class);
         return ResponseEntity.ok(response);
