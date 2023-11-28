@@ -1,7 +1,7 @@
 package com.devinhouse.pharma.controller;
 
-import com.devinhouse.pharma.model.Farmacia;
-import com.devinhouse.pharma.service.FarmaciaService;
+import com.devinhouse.pharma.model.Medicamento;
+import com.devinhouse.pharma.service.MedicamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/farmacias")
-public class FarmaciaController {
+@RequestMapping("/medicamentos")
+public class MedicamentoController {
 
     @Autowired
-    private FarmaciaService farmaciaService;
+    MedicamentoService medicamentoService;
 
     @PostMapping
-    public ResponseEntity<?> cadastrarFarmacia(@RequestBody Farmacia farmacia) {
-        return new ResponseEntity<>(farmaciaService.cadastrarFarmacia(farmacia), HttpStatus.CREATED);
+    public ResponseEntity<?> cadastrarMedicamento(@RequestBody Medicamento medicamento) {
+        return new ResponseEntity<>(medicamentoService.cadastrarMedicamento(medicamento), HttpStatus.CREATED);
     }
 
 }
