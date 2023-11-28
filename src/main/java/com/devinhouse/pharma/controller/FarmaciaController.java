@@ -1,5 +1,6 @@
 package com.devinhouse.pharma.controller;
 
+import com.devinhouse.pharma.dto.ErrorResponse;
 import com.devinhouse.pharma.dto.FarmaciaResponse;
 import com.devinhouse.pharma.model.Farmacia;
 import com.devinhouse.pharma.service.FarmaciaService;
@@ -33,6 +34,13 @@ public class FarmaciaController {
                 .stream()
                 .map(farmacia -> mapper.map(farmacia, FarmaciaResponse.class))
                 .toList();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{cnpj}")
+    public ResponseEntity<FarmaciaResponse> consultarFarmaciaPorCnpj(@PathVariable("cnpj") Long cnpj) {
+        Farmacia farmacia = farmaciaService.consultarFarmaciaPorCnpj(cnpj);
+        FarmaciaResponse response = mapper.map(farmacia, FarmaciaResponse.class);
         return ResponseEntity.ok(response);
     }
 
