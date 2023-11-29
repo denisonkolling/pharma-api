@@ -1,16 +1,22 @@
 package com.devinhouse.pharma.service.impl;
 
+import com.devinhouse.pharma.dto.EstoqueRequest;
 import com.devinhouse.pharma.dto.EstoqueResponse;
+import com.devinhouse.pharma.exception.QuantidadeInvalidaException;
+import com.devinhouse.pharma.exception.RegistroJaExistenteException;
 import com.devinhouse.pharma.exception.RegistroNaoEncontradoException;
 import com.devinhouse.pharma.model.Estoque;
 import com.devinhouse.pharma.model.Medicamento;
 import com.devinhouse.pharma.repository.EstoqueRepository;
+import com.devinhouse.pharma.repository.FarmaciaRepository;
 import com.devinhouse.pharma.repository.MedicamentoRepository;
 import com.devinhouse.pharma.service.EstoqueService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.ErrorResponse;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,11 +29,31 @@ public class EstoqueServiceImpl implements EstoqueService {
     private MedicamentoRepository medicamentoRepository;
 
     @Autowired
+    private FarmaciaRepository farmaciaRepository;
+
+    @Autowired
     private ModelMapper mapper;
 
     @Override
-    public Estoque cadastrarEstoque(Estoque estoque) {
-        return estoqueRepository.save(estoque);
+    public Estoque cadastrarEstoque(EstoqueRequest request) {
+
+        if (farmaciaRepository.findById(request.getCnpj()).isEmpty()) {
+            throw new RegistroNaoEncontradoException("Farmácia", request.getCnpj());
+        }
+
+        if (medicamentoRepository.findById(request.getNroRegistro()).isEmpty()) {
+            throw new RegistroNaoEncontradoException("Medicamento", Long.valueOf(request.getNroRegistro()));
+        }
+
+        if (request.getQuantidade() <= 0) {
+            throw new QuantidadeInvalidaException(request.getNome(), request.getQuantidade());
+        }
+
+        Estoque estoque = new Estoque();
+        mapper.map(request, estoque);
+        estoque.setDataAtualizacao(LocalDateTime.now());
+        estoqueRepository.save(estoque);
+        return estoque;
     }
 
     @Override

@@ -41,4 +41,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse("Registro Já Existe", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(QuantidadeInvalidaException.class)
+    public ResponseEntity<Object> handleQuantidadeInvalidaException(QuantidadeInvalidaException ex) {
+        ErrorResponse error = new ErrorResponse("Quantidade inválida", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }

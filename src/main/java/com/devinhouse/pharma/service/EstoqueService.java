@@ -1,5 +1,6 @@
 package com.devinhouse.pharma.service;
 
+import com.devinhouse.pharma.dto.EstoqueRequest;
 import com.devinhouse.pharma.dto.EstoqueResponse;
 import com.devinhouse.pharma.model.Estoque;
 
@@ -10,7 +11,7 @@ public interface EstoqueService {
 
     // TODO RF08 - Aquisição de Medicamentos para Estoque de farmácia
 
-    Estoque cadastrarEstoque(Estoque estoque);
+    Estoque cadastrarEstoque(EstoqueRequest estoqueRequest);
 
     // TODO RF07 - Consulta de Estoque de Farmácia
 

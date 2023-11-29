@@ -1,5 +1,6 @@
 package com.devinhouse.pharma.controller;
 
+import com.devinhouse.pharma.dto.EstoqueRequest;
 import com.devinhouse.pharma.dto.EstoqueResponse;
 import com.devinhouse.pharma.model.Estoque;
 import com.devinhouse.pharma.service.EstoqueService;
@@ -19,8 +20,8 @@ public class EstoqueController {
 
 
     @PostMapping
-    public ResponseEntity<?> cadastrarEstoque(@RequestBody Estoque estoque) {
-        return new ResponseEntity<>(estoqueService.cadastrarEstoque(estoque), HttpStatus.CREATED);
+    public ResponseEntity<?> cadastrarEstoque(@RequestBody EstoqueRequest estoqueRequest) {
+        return new ResponseEntity<>(estoqueService.cadastrarEstoque(estoqueRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/{cnpj}")
