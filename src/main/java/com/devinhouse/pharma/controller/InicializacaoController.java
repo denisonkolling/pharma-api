@@ -63,7 +63,7 @@ public class InicializacaoController {
 
         List<Medicamento> listaMedicamentos = new ArrayList<>();
 
-        Medicamento medicamento01 = new Medicamento(1010, "Programapan", "Matrix", "2x ao dia", "Lorem ipsum dolor sit amet, consectetur, adipiscing elit. Nunc eleifend", 111.00F, COMUM);
+        Medicamento medicamento01 = new Medicamento(1010, "Programapan", "Matrix", "2x ao dia", "Lorem ipsum dolor sit amet, consectetur, adipiscing elit. Nunc eleifend", 11.00F, COMUM);
         Medicamento medicamento02 = new Medicamento(7473, "Cafex", "Colombia Farm", "4x ao dia", "Pellentesque non ultricies mauris, ut lobortis elit. Cras nec cursus nibh", 51.50F, COMUM);
         Medicamento medicamento03 = new Medicamento(2233, "Estomazol", "Acme", "1x ao dia", "Sed risus mauris, consectetur eget egestas vitae", 22.50F, COMUM);
         Medicamento medicamento04 = new Medicamento(8880, "Gelox", "Ice", "2x ao dia", "Quisque quam orci, vulputate sit amet", 11.50F, COMUM);
