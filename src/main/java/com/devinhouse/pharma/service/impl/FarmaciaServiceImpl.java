@@ -1,12 +1,11 @@
 package com.devinhouse.pharma.service.impl;
 
-import com.devinhouse.pharma.dto.ErrorResponse;
+import com.devinhouse.pharma.exception.RegistroJaExistenteException;
 import com.devinhouse.pharma.exception.RegistroNaoEncontradoException;
 import com.devinhouse.pharma.model.Farmacia;
 import com.devinhouse.pharma.repository.FarmaciaRepository;
 import com.devinhouse.pharma.service.FarmaciaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +18,11 @@ public class FarmaciaServiceImpl implements FarmaciaService {
 
     @Override
     public Farmacia cadastrarFarmacia(Farmacia farmacia) {
+
+        if (farmaciaRepository.findById(farmacia.getCnpj()).isPresent()) {
+            throw new RegistroJaExistenteException("Farmácia", farmacia.getCnpj());
+        }
+
         return farmaciaRepository.save(farmacia);
     }
 
