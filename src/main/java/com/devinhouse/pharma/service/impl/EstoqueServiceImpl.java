@@ -20,7 +20,7 @@ public class EstoqueServiceImpl implements EstoqueService {
     }
 
     @Override
-    public List<Estoque> consultarEstoquePorCnpj(Long cnpj) {
+    public List<Estoque> listarEstoquePorCnpj(Long cnpj) {
         return estoqueRepository.findAllByCnpj(cnpj);
     }
 }

@@ -13,7 +13,7 @@ public interface EstoqueService {
 
     // TODO RF07 - Consulta de Estoque de Farmácia
 
-    List<Estoque> consultarEstoquePorCnpj(Long cnpj);
+    List<Estoque> listarEstoquePorCnpj(Long cnpj);
 
     // TODO RF09 - Venda de Medicamentos com atualização do Estoque de farmácia
 
