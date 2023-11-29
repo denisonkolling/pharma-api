@@ -1,10 +1,13 @@
 package com.devinhouse.pharma.controller;
 
+import com.devinhouse.pharma.dto.FarmaciaRequest;
 import com.devinhouse.pharma.dto.FarmaciaResponse;
+import com.devinhouse.pharma.dto.MedicamentoRequest;
 import com.devinhouse.pharma.dto.MedicamentoResponse;
 import com.devinhouse.pharma.model.Farmacia;
 import com.devinhouse.pharma.model.Medicamento;
 import com.devinhouse.pharma.service.MedicamentoService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +27,11 @@ public class MedicamentoController {
     private ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity<?> cadastrarMedicamento(@RequestBody Medicamento medicamento) {
-        return new ResponseEntity<>(medicamentoService.cadastrarMedicamento(medicamento), HttpStatus.CREATED);
+    public ResponseEntity<MedicamentoResponse> cadastrarMedicamento(@RequestBody @Valid MedicamentoRequest medicamentoRequest) {
+        var medicamento = mapper.map(medicamentoRequest, Medicamento.class);
+        medicamento = medicamentoService.cadastrarMedicamento(medicamento);
+        var response = mapper.map(medicamento,MedicamentoResponse.class);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
