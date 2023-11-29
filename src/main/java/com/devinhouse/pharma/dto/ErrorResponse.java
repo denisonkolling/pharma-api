@@ -2,6 +2,8 @@ package com.devinhouse.pharma.dto;
 
 import lombok.Getter;
 
+import java.util.Map;
+
 @Getter
 public class ErrorResponse {
 
@@ -9,8 +11,21 @@ public class ErrorResponse {
 
     private String mensagem;
 
-    public ErrorResponse(String titulo, String mensage) {
+    private Map<String, String> detalhes;
+
+    public ErrorResponse(String titulo, String mensagem, Map detalhes) {
         this.titulo = titulo;
-        this.mensagem = mensage;
+        this.mensagem = mensagem;
+        this.detalhes = detalhes;
     }
+
+    public ErrorResponse(String titulo, String mensagem) {
+        this.titulo = titulo;
+        this.mensagem = mensagem;
+    }
+
+    public ErrorResponse(String titulo) {
+        this(titulo, null);
+    }
+
 }
