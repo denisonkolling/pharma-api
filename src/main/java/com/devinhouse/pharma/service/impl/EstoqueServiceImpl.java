@@ -142,7 +142,44 @@ public class EstoqueServiceImpl implements EstoqueService {
             throw new RegistroNaoEncontradoException("Medicamento", request.getNroRegistro().toString());
         }
 
-        return null;
+        if (request.getQuantidade() <= 0) {
+            throw new QuantidadeInvalidaException(request.getNroRegistro().toString(), request.getQuantidade());
+        }
+
+        if(estoqueRepository.findByCnpjAndNroRegistro(request.getCnpjOrigem(), request.getNroRegistro()) == null) {
+            throw new RegistroNaoEncontradoException("Estoque", request.getNroRegistro().toString());
+        };
+
+        var estoqueOrigemDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpjOrigem(), request.getNroRegistro());
+
+        var saldoRestanteOrigem = estoqueOrigemDB.getQuantidade() - request.getQuantidade();
+
+        estoqueOrigemDB.setQuantidade(saldoRestanteOrigem);
+
+        estoqueRepository.save(estoqueOrigemDB);
+
+        var estoqueDestinoDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpjDestino(), request.getNroRegistro());
+
+        if (estoqueDestinoDB == null) {
+            estoqueDestinoDB = new Estoque();
+            estoqueDestinoDB.setCnpj(request.getCnpjDestino());
+            estoqueDestinoDB.setNroRegistro(request.getNroRegistro());
+            estoqueDestinoDB.setQuantidade(0);
+            estoqueDestinoDB.setDataAtualizacao(LocalDateTime.now());
+        }
+
+        var saldoAtualizadoDestino = estoqueDestinoDB.getQuantidade() + request.getQuantidade();
+
+        estoqueDestinoDB.setQuantidade(saldoAtualizadoDestino);
+
+        estoqueRepository.save(estoqueDestinoDB);
+
+        EstoqueTransfResponse estoqueResponse = new EstoqueTransfResponse();
+        mapper.map(request, estoqueResponse);
+        estoqueResponse.setQuantidadeOrigem(saldoRestanteOrigem);
+        estoqueResponse.setQuantidadeDestino(saldoAtualizadoDestino);
+        return estoqueResponse;
+
     }
 
 }
