@@ -2,8 +2,10 @@ package com.devinhouse.pharma.controller;
 
 import com.devinhouse.pharma.dto.EstoqueRequest;
 import com.devinhouse.pharma.dto.EstoqueResponse;
+import com.devinhouse.pharma.dto.EstoqueUpdateRequest;
 import com.devinhouse.pharma.model.Estoque;
 import com.devinhouse.pharma.service.EstoqueService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,11 @@ public class EstoqueController {
     @GetMapping("/{cnpj}")
     public ResponseEntity<List<EstoqueResponse>> listarEstoquePorCnpj(@PathVariable Long cnpj) {
         return new ResponseEntity<>(estoqueService.listarEstoquePorCnpj(cnpj), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deletarEstoque(@RequestBody @Valid EstoqueUpdateRequest request) {
+        return new ResponseEntity<>(estoqueService.deletarEstoque(request), HttpStatus.OK);
     }
 
 }
