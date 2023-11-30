@@ -21,7 +21,7 @@ public class EstoqueController {
 
     @PostMapping
     public ResponseEntity<?> cadastrarEstoque(@RequestBody EstoqueRequest estoqueRequest) {
-        return new ResponseEntity<>(estoqueService.cadastrarEstoque(estoqueRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(estoqueService.cadastrarEstoque(estoqueRequest), HttpStatus.OK);
     }
 
     @GetMapping("/{cnpj}")
