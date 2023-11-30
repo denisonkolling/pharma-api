@@ -1,8 +1,6 @@
 package com.devinhouse.pharma.service.impl;
 
-import com.devinhouse.pharma.dto.EstoqueRequest;
-import com.devinhouse.pharma.dto.EstoqueResponse;
-import com.devinhouse.pharma.dto.EstoqueUpdateRequest;
+import com.devinhouse.pharma.dto.*;
 import com.devinhouse.pharma.exception.QuantidadeInvalidaException;
 import com.devinhouse.pharma.exception.RegistroNaoEncontradoException;
 import com.devinhouse.pharma.model.Estoque;
@@ -127,6 +125,24 @@ public class EstoqueServiceImpl implements EstoqueService {
 
         estoqueRepository.save(estoque);
         return estoque;
+    }
+
+    @Override
+    public EstoqueTransfResponse transferenciaEstoque(EstoqueTransfRequest request) {
+
+        if (!farmaciaRepository.existsById(request.getCnpjOrigem())) {
+            throw new RegistroNaoEncontradoException("Farmácia Origem", request.getCnpjOrigem());
+        }
+
+        if (!farmaciaRepository.existsById(request.getCnpjDestino())) {
+            throw new RegistroNaoEncontradoException("Farmácia Destino", request.getCnpjDestino());
+        }
+
+        if (!medicamentoRepository.existsById(request.getNroRegistro())) {
+            throw new RegistroNaoEncontradoException("Medicamento", request.getNroRegistro().toString());
+        }
+
+        return null;
     }
 
 }
