@@ -1,5 +1,6 @@
 package com.devinhouse.pharma.service.impl;
 
+import com.devinhouse.pharma.exception.RegistroJaExistenteException;
 import com.devinhouse.pharma.model.Medicamento;
 import com.devinhouse.pharma.repository.MedicamentoRepository;
 import com.devinhouse.pharma.service.MedicamentoService;
@@ -16,6 +17,9 @@ public class MedicamentoServiceImpl implements MedicamentoService {
 
     @Override
     public Medicamento cadastrarMedicamento(Medicamento medicamento) {
+        if (medicamentoRepository.findById(medicamento.getNroRegistro()).isPresent()) {
+            throw new RegistroJaExistenteException("Medicamento", medicamento.getNroRegistro());
+        }
         return medicamentoRepository.save(medicamento);
     }
 

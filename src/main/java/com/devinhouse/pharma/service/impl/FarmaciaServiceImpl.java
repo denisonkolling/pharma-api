@@ -1,5 +1,7 @@
 package com.devinhouse.pharma.service.impl;
 
+import com.devinhouse.pharma.exception.RegistroJaExistenteException;
+import com.devinhouse.pharma.exception.RegistroNaoEncontradoException;
 import com.devinhouse.pharma.model.Farmacia;
 import com.devinhouse.pharma.repository.FarmaciaRepository;
 import com.devinhouse.pharma.service.FarmaciaService;
@@ -16,6 +18,11 @@ public class FarmaciaServiceImpl implements FarmaciaService {
 
     @Override
     public Farmacia cadastrarFarmacia(Farmacia farmacia) {
+
+        if (farmaciaRepository.findById(farmacia.getCnpj()).isPresent()) {
+            throw new RegistroJaExistenteException("Farmácia", farmacia.getCnpj());
+        }
+
         return farmaciaRepository.save(farmacia);
     }
 
@@ -26,6 +33,6 @@ public class FarmaciaServiceImpl implements FarmaciaService {
 
     @Override
     public Farmacia consultarFarmaciaPorCnpj(Long cnpj) {
-        return farmaciaRepository.findById(cnpj).get();
+        return farmaciaRepository.findById(cnpj).orElseThrow(() -> new RegistroNaoEncontradoException("CNPJ", cnpj));
     }
 }
