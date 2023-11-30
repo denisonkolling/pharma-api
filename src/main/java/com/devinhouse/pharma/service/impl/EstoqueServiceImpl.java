@@ -117,17 +117,15 @@ public class EstoqueServiceImpl implements EstoqueService {
             throw new QuantidadeInvalidaException(request.getNroRegistro().toString() + " estoque restante", quantidadeTotal);
         }
 
+        estoque.setQuantidade(quantidadeTotal);
+        estoque.setDataAtualizacao(LocalDateTime.now());
+
         if (quantidadeTotal == 0) {
-            estoque.setQuantidade(quantidadeTotal);
-            estoque.setDataAtualizacao(LocalDateTime.now());
             estoqueRepository.delete(estoque);
             return estoque;
         }
 
-        estoque.setQuantidade(quantidadeTotal);
-        estoque.setDataAtualizacao(LocalDateTime.now());
         estoqueRepository.save(estoque);
-
         return estoque;
     }
 
