@@ -51,6 +51,12 @@ public class EstoqueServiceImpl implements EstoqueService {
         Estoque estoque = new Estoque();
         mapper.map(request, estoque);
         var estoqueDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpj(), request.getNroRegistro());
+
+        if (estoqueDB == null) {
+            estoqueDB = new Estoque();
+            estoqueDB.setQuantidade(0);
+        }
+
         Integer quantidadeTotal = request.getQuantidade() + estoqueDB.getQuantidade();
         estoque.setQuantidade(quantidadeTotal);
         estoque.setDataAtualizacao(LocalDateTime.now());
@@ -98,8 +104,26 @@ public class EstoqueServiceImpl implements EstoqueService {
 
         Estoque estoque = new Estoque();
         mapper.map(request, estoque);
+
         var estoqueDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpj(), request.getNroRegistro());
+
+        if (estoqueDB == null) {
+            throw new RegistroNaoEncontradoException("Estoque", estoque.getNroRegistro().toString());
+        }
+
         Integer quantidadeTotal = estoqueDB.getQuantidade() - request.getQuantidade();
+
+        if (quantidadeTotal < 0) {
+            throw new QuantidadeInvalidaException(request.getNroRegistro().toString() + " estoque restante", quantidadeTotal);
+        }
+
+        if (quantidadeTotal == 0) {
+            estoque.setQuantidade(quantidadeTotal);
+            estoque.setDataAtualizacao(LocalDateTime.now());
+            estoqueRepository.delete(estoque);
+            return estoque;
+        }
+
         estoque.setQuantidade(quantidadeTotal);
         estoque.setDataAtualizacao(LocalDateTime.now());
         estoqueRepository.save(estoque);
