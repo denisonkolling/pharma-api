@@ -2,6 +2,7 @@ package com.devinhouse.pharma.service.impl;
 
 import com.devinhouse.pharma.dto.EstoqueRequest;
 import com.devinhouse.pharma.dto.EstoqueResponse;
+import com.devinhouse.pharma.dto.EstoqueUpdateRequest;
 import com.devinhouse.pharma.exception.QuantidadeInvalidaException;
 import com.devinhouse.pharma.exception.RegistroNaoEncontradoException;
 import com.devinhouse.pharma.model.Estoque;
@@ -78,6 +79,32 @@ public class EstoqueServiceImpl implements EstoqueService {
         }
 
         return listaEstoqueResponse;
+    }
+
+    @Override
+    public Estoque deletarEstoque(EstoqueUpdateRequest request) {
+
+        if (farmaciaRepository.findById(request.getCnpj()).isEmpty()) {
+            throw new RegistroNaoEncontradoException("Farmácia", request.getCnpj());
+        }
+
+        if (medicamentoRepository.findById(request.getNroRegistro()).isEmpty()) {
+            throw new RegistroNaoEncontradoException("Medicamento", Long.valueOf(request.getNroRegistro()));
+        }
+
+        if (request.getQuantidade() <= 0) {
+            throw new QuantidadeInvalidaException(request.getNroRegistro().toString(), request.getQuantidade());
+        }
+
+        Estoque estoque = new Estoque();
+        mapper.map(request, estoque);
+        var estoqueDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpj(), request.getNroRegistro());
+        Integer quantidadeTotal = estoqueDB.getQuantidade() - request.getQuantidade();
+        estoque.setQuantidade(quantidadeTotal);
+        estoque.setDataAtualizacao(LocalDateTime.now());
+        estoqueRepository.save(estoque);
+
+        return estoque;
     }
 
 }
