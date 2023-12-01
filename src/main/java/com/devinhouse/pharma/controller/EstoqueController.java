@@ -2,6 +2,7 @@ package com.devinhouse.pharma.controller;
 
 import com.devinhouse.pharma.dto.EstoqueRequest;
 import com.devinhouse.pharma.dto.EstoqueResponse;
+import com.devinhouse.pharma.dto.EstoqueTransfRequest;
 import com.devinhouse.pharma.dto.EstoqueUpdateRequest;
 import com.devinhouse.pharma.model.Estoque;
 import com.devinhouse.pharma.service.EstoqueService;
@@ -34,6 +35,11 @@ public class EstoqueController {
     @DeleteMapping
     public ResponseEntity<?> deletarEstoque(@RequestBody @Valid EstoqueUpdateRequest request) {
         return new ResponseEntity<>(estoqueService.deletarEstoque(request), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> tranferenciaEstoque(@RequestBody @Valid EstoqueTransfRequest request) {
+        return new ResponseEntity<>(estoqueService.transferenciaEstoque(request), HttpStatus.OK);
     }
 
 }
