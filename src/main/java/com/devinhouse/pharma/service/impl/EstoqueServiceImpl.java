@@ -9,6 +9,7 @@ import com.devinhouse.pharma.repository.EstoqueRepository;
 import com.devinhouse.pharma.repository.FarmaciaRepository;
 import com.devinhouse.pharma.repository.MedicamentoRepository;
 import com.devinhouse.pharma.service.EstoqueService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -128,6 +129,7 @@ public class EstoqueServiceImpl implements EstoqueService {
     }
 
     @Override
+    @Transactional
     public EstoqueTransfResponse transferenciaEstoque(EstoqueTransfRequest request) {
 
         if (!farmaciaRepository.existsById(request.getCnpjOrigem())) {
@@ -154,9 +156,18 @@ public class EstoqueServiceImpl implements EstoqueService {
 
         var saldoRestanteOrigem = estoqueOrigemDB.getQuantidade() - request.getQuantidade();
 
-        estoqueOrigemDB.setQuantidade(saldoRestanteOrigem);
+        if (saldoRestanteOrigem != 0) {
 
-        estoqueRepository.save(estoqueOrigemDB);
+            estoqueOrigemDB.setQuantidade(saldoRestanteOrigem);
+            estoqueRepository.save(estoqueOrigemDB);
+
+        }
+
+        if (saldoRestanteOrigem < 0) {
+            throw new QuantidadeInvalidaException(request.getNroRegistro().toString(), request.getQuantidade());
+        }
+
+        estoqueRepository.delete(estoqueOrigemDB);
 
         var estoqueDestinoDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpjDestino(), request.getNroRegistro());
 
@@ -178,6 +189,7 @@ public class EstoqueServiceImpl implements EstoqueService {
         mapper.map(request, estoqueResponse);
         estoqueResponse.setQuantidadeOrigem(saldoRestanteOrigem);
         estoqueResponse.setQuantidadeDestino(saldoAtualizadoDestino);
+
         return estoqueResponse;
 
     }
