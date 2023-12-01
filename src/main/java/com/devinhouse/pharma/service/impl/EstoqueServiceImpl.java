@@ -156,18 +156,16 @@ public class EstoqueServiceImpl implements EstoqueService {
 
         var saldoRestanteOrigem = estoqueOrigemDB.getQuantidade() - request.getQuantidade();
 
-        if (saldoRestanteOrigem != 0) {
-
-            estoqueOrigemDB.setQuantidade(saldoRestanteOrigem);
-            estoqueRepository.save(estoqueOrigemDB);
-
-        }
-
         if (saldoRestanteOrigem < 0) {
             throw new QuantidadeInvalidaException(request.getNroRegistro().toString(), request.getQuantidade());
-        }
 
-        estoqueRepository.delete(estoqueOrigemDB);
+        } else if (saldoRestanteOrigem == 0) {
+            estoqueRepository.delete(estoqueOrigemDB);
+
+        } else {
+            estoqueOrigemDB.setQuantidade(saldoRestanteOrigem);
+            estoqueRepository.save(estoqueOrigemDB);
+        }
 
         var estoqueDestinoDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpjDestino(), request.getNroRegistro());
 
@@ -182,11 +180,11 @@ public class EstoqueServiceImpl implements EstoqueService {
         var saldoAtualizadoDestino = estoqueDestinoDB.getQuantidade() + request.getQuantidade();
 
         estoqueDestinoDB.setQuantidade(saldoAtualizadoDestino);
-
         estoqueRepository.save(estoqueDestinoDB);
 
         EstoqueTransfResponse estoqueResponse = new EstoqueTransfResponse();
         mapper.map(request, estoqueResponse);
+
         estoqueResponse.setQuantidadeOrigem(saldoRestanteOrigem);
         estoqueResponse.setQuantidadeDestino(saldoAtualizadoDestino);
 
