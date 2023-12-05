@@ -23,9 +23,11 @@ public class EstoqueController {
     private ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Estoque> cadastrarEstoque(@RequestBody EstoqueRequest estoqueRequest) {
+    public ResponseEntity<EstoqueResponse> cadastrarEstoque(@RequestBody EstoqueRequest estoqueRequest) {
         var estoque = mapper.map(estoqueRequest, Estoque.class);
-        return new ResponseEntity<>(estoqueService.cadastrarEstoque(estoque), HttpStatus.OK);
+        estoque = estoqueService.cadastrarEstoque(estoque);
+        var response = mapper.map(estoque, EstoqueResponse.class);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{cnpj}")
@@ -34,8 +36,11 @@ public class EstoqueController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Estoque> deletarEstoque(@RequestBody @Valid EstoqueUpdateRequest request) {
-        return new ResponseEntity<>(estoqueService.deletarEstoque(request), HttpStatus.OK);
+    public ResponseEntity<EstoqueResponse> deletarEstoque(@RequestBody @Valid EstoqueUpdateRequest estoqueRequest) {
+        var estoque = mapper.map(estoqueRequest, Estoque.class);
+        estoque = estoqueService.cadastrarEstoque(estoque);
+        var response = mapper.map(estoque, EstoqueResponse.class);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping
