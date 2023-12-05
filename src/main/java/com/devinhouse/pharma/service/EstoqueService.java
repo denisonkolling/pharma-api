@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface EstoqueService {
 
-    Estoque cadastrarEstoque(EstoqueRequest estoqueRequest);
+    Estoque cadastrarEstoque(Estoque estoque);
 
     List<EstoqueResponse> listarEstoquePorCnpj(Long cnpj);
 

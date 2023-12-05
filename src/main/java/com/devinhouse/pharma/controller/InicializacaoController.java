@@ -112,8 +112,7 @@ public class InicializacaoController {
 
 
         for (Estoque estoque : listaEstoques) {
-            var estoqueRequest = mapper.map(estoque, EstoqueRequest.class);
-            Estoque salvarEstoque = estoqueService.cadastrarEstoque(estoqueRequest);
+            Estoque salvarEstoque = estoqueService.cadastrarEstoque(estoque);
         }
 
     }

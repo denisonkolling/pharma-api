@@ -33,30 +33,28 @@ public class EstoqueServiceImpl implements EstoqueService {
     private ModelMapper mapper;
 
     @Override
-    public Estoque cadastrarEstoque(EstoqueRequest request) {
+    public Estoque cadastrarEstoque(Estoque estoque) {
 
-        if (farmaciaRepository.findById(request.getCnpj()).isEmpty()) {
-            throw new RegistroNaoEncontradoException("Farmácia", request.getCnpj());
+        if (farmaciaRepository.findById(estoque.getCnpj()).isEmpty()) {
+            throw new RegistroNaoEncontradoException("Farmácia", estoque.getCnpj());
         }
 
-        if (medicamentoRepository.findById(request.getNroRegistro()).isEmpty()) {
-            throw new RegistroNaoEncontradoException("Medicamento", Long.valueOf(request.getNroRegistro()));
+        if (medicamentoRepository.findById(estoque.getNroRegistro()).isEmpty()) {
+            throw new RegistroNaoEncontradoException("Medicamento", Long.valueOf(estoque.getNroRegistro()));
         }
 
-        if (request.getQuantidade() <= 0) {
-            throw new QuantidadeInvalidaException(request.getNome(), request.getQuantidade());
+        if (estoque.getQuantidade() <= 0) {
+            throw new QuantidadeInvalidaException(estoque.getNroRegistro().toString(), estoque.getQuantidade());
         }
 
-        Estoque estoque = new Estoque();
-        mapper.map(request, estoque);
-        var estoqueDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpj(), request.getNroRegistro());
+        var estoqueDB = estoqueRepository.findByCnpjAndNroRegistro(estoque.getCnpj(), estoque.getNroRegistro());
 
         if (estoqueDB == null) {
             estoqueDB = new Estoque();
             estoqueDB.setQuantidade(0);
         }
 
-        Integer quantidadeTotal = request.getQuantidade() + estoqueDB.getQuantidade();
+        Integer quantidadeTotal = estoque.getQuantidade() + estoqueDB.getQuantidade();
         estoque.setQuantidade(quantidadeTotal);
         estoque.setDataAtualizacao(LocalDateTime.now());
         estoqueRepository.save(estoque);
