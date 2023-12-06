@@ -23,22 +23,22 @@ public class EstoqueController {
     private ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity<EstoqueCadastroResponse> cadastrarEstoque(@RequestBody EstoqueCadastroRequest estoqueCadastroRequest) {
-        var estoque = mapper.map(estoqueCadastroRequest, Estoque.class);
+    public ResponseEntity<EstoqueResponse> cadastrarEstoque(@RequestBody EstoqueRequest request) {
+        var estoque = mapper.map(request, Estoque.class);
         estoque = estoqueService.cadastrarEstoque(estoque);
-        var response = mapper.map(estoque, EstoqueCadastroResponse.class);
+        var response = mapper.map(estoque, EstoqueResponse.class);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{cnpj}")
-    public ResponseEntity<List<EstoqueResponse>> listarEstoquePorCnpj(@PathVariable Long cnpj) {
+    public ResponseEntity<List<EstoqueConsultaResponse>> listarEstoquePorCnpj(@PathVariable Long cnpj) {
         return new ResponseEntity<>(estoqueService.listarEstoquePorCnpj(cnpj), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<EstoqueResponse> deletarEstoque(@RequestBody @Valid EstoqueUpdateRequest estoqueRequest) {
-        var estoque = mapper.map(estoqueRequest, Estoque.class);
-        estoque = estoqueService.cadastrarEstoque(estoque);
+    public ResponseEntity<EstoqueResponse> deletarEstoque(@RequestBody @Valid EstoqueRequest request) {
+        var estoque = mapper.map(request, Estoque.class);
+        estoque = estoqueService.deletarEstoque(estoque);
         var response = mapper.map(estoque, EstoqueResponse.class);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

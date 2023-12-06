@@ -7,11 +7,12 @@ import java.time.LocalDateTime;
 @Data
 public class EstoqueResponse {
 
-    private Integer nroRegistro;
+    private Long cnpj;
 
-    private String nome;
+    private Integer nroRegistro;
 
     private Integer quantidade;
 
     private LocalDateTime dataAtualizacao;
+
 }

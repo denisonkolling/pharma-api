@@ -63,7 +63,7 @@ public class EstoqueServiceImpl implements EstoqueService {
     }
 
     @Override
-    public List<EstoqueResponse> listarEstoquePorCnpj(Long cnpj) {
+    public List<EstoqueConsultaResponse> listarEstoquePorCnpj(Long cnpj) {
 
         List<Estoque> estoques = estoqueRepository.findAllByCnpj(cnpj);
 
@@ -71,21 +71,21 @@ public class EstoqueServiceImpl implements EstoqueService {
             throw new RegistroNaoEncontradoException("Farmácia", cnpj);
         }
 
-        var listaEstoqueResponse = estoques
+        var listaEstoque = estoques
                 .stream()
-                .map(estoque -> mapper.map(estoque,EstoqueResponse.class))
+                .map(estoque -> mapper.map(estoque,EstoqueConsultaResponse.class))
                 .toList();
 
-        for (EstoqueResponse itemEstoque : listaEstoqueResponse) {
+        for (EstoqueConsultaResponse itemEstoque : listaEstoque) {
             Medicamento medicamento = medicamentoRepository.findById(itemEstoque.getNroRegistro()).get();
             itemEstoque.setNome(medicamento.getNome());
         }
 
-        return listaEstoqueResponse;
+        return listaEstoque;
     }
 
     @Override
-    public Estoque deletarEstoque(EstoqueUpdateRequest request) {
+    public Estoque deletarEstoque(Estoque request) {
 
         if (farmaciaRepository.findById(request.getCnpj()).isEmpty()) {
             throw new RegistroNaoEncontradoException("Farmácia", request.getCnpj());

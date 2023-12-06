@@ -10,9 +10,9 @@ public interface EstoqueService {
 
     Estoque cadastrarEstoque(Estoque estoque);
 
-    List<EstoqueResponse> listarEstoquePorCnpj(Long cnpj);
+    List<EstoqueConsultaResponse> listarEstoquePorCnpj(Long cnpj);
 
-    Estoque deletarEstoque(EstoqueUpdateRequest request);
+    Estoque deletarEstoque(Estoque request);
 
     EstoqueTransfResponse transferenciaEstoque(EstoqueTransfRequest request);
 

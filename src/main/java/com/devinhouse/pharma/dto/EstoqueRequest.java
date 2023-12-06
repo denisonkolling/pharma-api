@@ -13,9 +13,6 @@ public class EstoqueRequest {
     @NotNull(message = "Campo obrigatório")
     private Integer nroRegistro;
 
-    @NotBlank(message = "Campo obrigatório")
-    private String nome;
-
     @NotNull(message = "Campo obrigatório")
     private Integer quantidade;
 
