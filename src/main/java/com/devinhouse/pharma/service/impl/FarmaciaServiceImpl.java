@@ -20,7 +20,7 @@ public class FarmaciaServiceImpl implements FarmaciaService {
     public Farmacia cadastrarFarmacia(Farmacia farmacia) {
 
         if (farmaciaRepository.findById(farmacia.getCnpj()).isPresent()) {
-            throw new RegistroJaExistenteException("Farmácia", farmacia.getCnpj());
+            throw new RegistroJaExistenteException("CNPJ", farmacia.getCnpj());
         }
 
         return farmaciaRepository.save(farmacia);

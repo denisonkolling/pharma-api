@@ -36,11 +36,11 @@ public class EstoqueServiceImpl implements EstoqueService {
     public Estoque cadastrarEstoque(Estoque estoque) {
 
         if (farmaciaRepository.findById(estoque.getCnpj()).isEmpty()) {
-            throw new RegistroNaoEncontradoException("Farmácia", estoque.getCnpj());
+            throw new RegistroNaoEncontradoException("CNPJ", estoque.getCnpj());
         }
 
         if (medicamentoRepository.findById(estoque.getNroRegistro()).isEmpty()) {
-            throw new RegistroNaoEncontradoException("Medicamento", Long.valueOf(estoque.getNroRegistro()));
+            throw new RegistroNaoEncontradoException("MEDICAMENTO", Long.valueOf(estoque.getNroRegistro()));
         }
 
         if (estoque.getQuantidade() <= 0) {
@@ -68,7 +68,7 @@ public class EstoqueServiceImpl implements EstoqueService {
         List<Estoque> estoques = estoqueRepository.findAllByCnpj(cnpj);
 
         if (farmaciaRepository.findById(cnpj).isEmpty()) {
-            throw new RegistroNaoEncontradoException("Farmácia", cnpj);
+            throw new RegistroNaoEncontradoException("CNPJ", cnpj);
         }
 
         var listaEstoque = estoques
@@ -88,11 +88,11 @@ public class EstoqueServiceImpl implements EstoqueService {
     public Estoque deletarEstoque(Estoque request) {
 
         if (farmaciaRepository.findById(request.getCnpj()).isEmpty()) {
-            throw new RegistroNaoEncontradoException("Farmácia", request.getCnpj());
+            throw new RegistroNaoEncontradoException("CNPJ", request.getCnpj());
         }
 
         if (medicamentoRepository.findById(request.getNroRegistro()).isEmpty()) {
-            throw new RegistroNaoEncontradoException("Medicamento", Long.valueOf(request.getNroRegistro()));
+            throw new RegistroNaoEncontradoException("MEDICAMENTO", Long.valueOf(request.getNroRegistro()));
         }
 
         if (request.getQuantidade() <= 0) {
@@ -105,7 +105,7 @@ public class EstoqueServiceImpl implements EstoqueService {
         var estoqueDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpj(), request.getNroRegistro());
 
         if (estoqueDB == null) {
-            throw new RegistroNaoEncontradoException("Estoque", estoque.getNroRegistro().toString());
+            throw new RegistroNaoEncontradoException("ESTOQUE", estoque.getNroRegistro().toString());
         }
 
         Integer quantidadeTotal = estoqueDB.getQuantidade() - request.getQuantidade();
@@ -131,15 +131,15 @@ public class EstoqueServiceImpl implements EstoqueService {
     public EstoqueTransfResponse transferenciaEstoque(EstoqueTransfRequest request) {
 
         if (!farmaciaRepository.existsById(request.getCnpjOrigem())) {
-            throw new RegistroNaoEncontradoException("Farmácia Origem", request.getCnpjOrigem());
+            throw new RegistroNaoEncontradoException("CNPJ ORIGEM", request.getCnpjOrigem());
         }
 
         if (!farmaciaRepository.existsById(request.getCnpjDestino())) {
-            throw new RegistroNaoEncontradoException("Farmácia Destino", request.getCnpjDestino());
+            throw new RegistroNaoEncontradoException("CNPJ DESTINO", request.getCnpjDestino());
         }
 
         if (!medicamentoRepository.existsById(request.getNroRegistro())) {
-            throw new RegistroNaoEncontradoException("Medicamento", request.getNroRegistro().toString());
+            throw new RegistroNaoEncontradoException("MEDICAMENTO", request.getNroRegistro().toString());
         }
 
         if (request.getQuantidade() <= 0) {
@@ -147,7 +147,7 @@ public class EstoqueServiceImpl implements EstoqueService {
         }
 
         if(estoqueRepository.findByCnpjAndNroRegistro(request.getCnpjOrigem(), request.getNroRegistro()) == null) {
-            throw new RegistroNaoEncontradoException("Estoque", request.getNroRegistro().toString());
+            throw new RegistroNaoEncontradoException("ESTOQUE", request.getNroRegistro().toString());
         };
 
         var estoqueOrigemDB = estoqueRepository.findByCnpjAndNroRegistro(request.getCnpjOrigem(), request.getNroRegistro());
