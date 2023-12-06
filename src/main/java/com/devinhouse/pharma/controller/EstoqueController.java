@@ -23,10 +23,10 @@ public class EstoqueController {
     private ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity<EstoqueResponse> cadastrarEstoque(@RequestBody EstoqueRequest estoqueRequest) {
-        var estoque = mapper.map(estoqueRequest, Estoque.class);
+    public ResponseEntity<EstoqueCadastroResponse> cadastrarEstoque(@RequestBody EstoqueCadastroRequest estoqueCadastroRequest) {
+        var estoque = mapper.map(estoqueCadastroRequest, Estoque.class);
         estoque = estoqueService.cadastrarEstoque(estoque);
-        var response = mapper.map(estoque, EstoqueResponse.class);
+        var response = mapper.map(estoque, EstoqueCadastroResponse.class);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
