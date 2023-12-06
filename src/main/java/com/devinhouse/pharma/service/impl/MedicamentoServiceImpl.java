@@ -18,7 +18,7 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     @Override
     public Medicamento cadastrarMedicamento(Medicamento medicamento) {
         if (medicamentoRepository.findById(medicamento.getNroRegistro()).isPresent()) {
-            throw new RegistroJaExistenteException("Medicamento", medicamento.getNroRegistro());
+            throw new RegistroJaExistenteException("MEDICAMENTO", medicamento.getNroRegistro());
         }
         return medicamentoRepository.save(medicamento);
     }

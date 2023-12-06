@@ -5,14 +5,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class EstoqueResponse {
-
-    private Long cnpj;
+public class EstoqueConsultaResponse {
 
     private Integer nroRegistro;
+
+    private String nome;
 
     private Integer quantidade;
 
     private LocalDateTime dataAtualizacao;
 
 }
+

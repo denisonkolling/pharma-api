@@ -1,5 +1,6 @@
 package com.devinhouse.pharma.controller;
 
+import com.devinhouse.pharma.dto.EstoqueRequest;
 import com.devinhouse.pharma.model.Endereco;
 import com.devinhouse.pharma.model.Estoque;
 import com.devinhouse.pharma.model.Farmacia;
@@ -7,6 +8,10 @@ import com.devinhouse.pharma.model.Medicamento;
 import com.devinhouse.pharma.repository.EstoqueRepository;
 import com.devinhouse.pharma.repository.FarmaciaRepository;
 import com.devinhouse.pharma.repository.MedicamentoRepository;
+import com.devinhouse.pharma.service.EstoqueService;
+import com.devinhouse.pharma.service.FarmaciaService;
+import com.devinhouse.pharma.service.MedicamentoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +31,16 @@ import static com.devinhouse.pharma.model.TipoMedicamento.CONTROLADO;
 public class InicializacaoController {
 
     @Autowired
-    private FarmaciaRepository farmaciaRepository;
+    private FarmaciaService farmaciaService;
 
     @Autowired
-    private MedicamentoRepository medicamentoRepository;
+    private MedicamentoService medicamentoService;
 
     @Autowired
-    private EstoqueRepository estoqueRepository;
+    private EstoqueService estoqueService;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @PostMapping
     public ResponseEntity<?> cargaInicialdeDados() {
@@ -54,7 +62,7 @@ public class InicializacaoController {
         listaFarmacias.add(farmacia02);
 
         for (Farmacia farmacia : listaFarmacias) {
-            Farmacia salvarFarmacia = farmaciaRepository.save(farmacia);
+            Farmacia salvarFarmacia = farmaciaService.cadastrarFarmacia(farmacia);
         }
 
     }
@@ -78,7 +86,7 @@ public class InicializacaoController {
         listaMedicamentos.add(medicamento06);
 
         for (Medicamento medicamento : listaMedicamentos) {
-            Medicamento salvarMedicamento = medicamentoRepository.save(medicamento);
+            Medicamento salvarMedicamento = medicamentoService.cadastrarMedicamento(medicamento);
         }
 
     }
@@ -101,8 +109,10 @@ public class InicializacaoController {
         listaEstoques.add(estoque05);
         listaEstoques.add(estoque06);
 
+
+
         for (Estoque estoque : listaEstoques) {
-            Estoque salvarEstoque = estoqueRepository.save(estoque);
+            Estoque salvarEstoque = estoqueService.cadastrarEstoque(estoque);
         }
 
     }

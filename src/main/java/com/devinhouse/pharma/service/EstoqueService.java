@@ -1,8 +1,6 @@
 package com.devinhouse.pharma.service;
 
-import com.devinhouse.pharma.dto.EstoqueRequest;
-import com.devinhouse.pharma.dto.EstoqueResponse;
-import com.devinhouse.pharma.dto.EstoqueUpdateRequest;
+import com.devinhouse.pharma.dto.*;
 import com.devinhouse.pharma.model.Estoque;
 
 import java.util.List;
@@ -10,10 +8,12 @@ import java.util.List;
 
 public interface EstoqueService {
 
-    Estoque cadastrarEstoque(EstoqueRequest estoqueRequest);
+    Estoque cadastrarEstoque(Estoque estoque);
 
-    List<EstoqueResponse> listarEstoquePorCnpj(Long cnpj);
+    List<EstoqueConsultaResponse> listarEstoquePorCnpj(Long cnpj);
 
-    Estoque deletarEstoque(EstoqueUpdateRequest request);
+    Estoque deletarEstoque(Estoque request);
+
+    EstoqueTransfResponse transferenciaEstoque(EstoqueTransfRequest request);
 
 }
