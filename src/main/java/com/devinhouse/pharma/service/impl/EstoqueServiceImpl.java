@@ -67,8 +67,8 @@ public class EstoqueServiceImpl implements EstoqueService {
 
         List<Estoque> estoques = estoqueRepository.findAllByCnpj(cnpj);
 
-        if (estoques.isEmpty()) {
-            throw new RegistroNaoEncontradoException("CNPJ", cnpj);
+        if (farmaciaRepository.findById(cnpj).isEmpty()) {
+            throw new RegistroNaoEncontradoException("Farmácia", cnpj);
         }
 
         var listaEstoqueResponse = estoques
