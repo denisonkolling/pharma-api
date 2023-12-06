@@ -21,7 +21,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RegistroNaoEncontradoException.class)
     public ResponseEntity<Object> handleRegistroNaoEncontradoException(RegistroNaoEncontradoException ex) {
         ErrorResponse error = new ErrorResponse("Registro não encontrado", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @Override
@@ -46,5 +46,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleQuantidadeInvalidaException(QuantidadeInvalidaException ex) {
         ErrorResponse error = new ErrorResponse("Quantidade inválida", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(RegistroCnpjNaoEncontradoException.class)
+    public ResponseEntity<Object> handleRegistroCnpjNaoEncontradoException(RegistroCnpjNaoEncontradoException ex) {
+        ErrorResponse error = new ErrorResponse("Registro não encontrado", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }
