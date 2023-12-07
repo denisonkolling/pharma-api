@@ -22,17 +22,30 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 | ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)         | versionamento de código em repositório remoto.                                                                                              | 
 
 
+
 ## 💻 Projeto
 
 **Uma aplicação de API REST para gerenciamento do cadastro de medicamentos e farmácias**, proporcionando funcionalidades de controle de estoque. A plataforma permite o cadastramento de medicamentos, a consulta dos registros existentes e a obtenção de detalhes específicos de cada item.
 
 Adicionalmente, a aplicação oferece a capacidade de cadastrar o estoque das farmácias, proporcionando opções para inclusão, deleção e transferência de medicamentos entre unidades.
 
+## Banco de Dados
+
+Diagrama de tabelas do projeto:
+
+<p align="center">
+  <img alt="pharma-api-database" src="./pharma-api-db.png" width="45%">
+</p>
+
 ## 🔖 Documentação da API
 
-Para implementação das funcionalidades foram desenvolvidas os seguintes endpoints:
+Para implementação das funcionalidades foram desenvolvidos os seguintes endpoints:
 
-## 🏥 Farmácia
+<p align="center">
+  <img alt="pharma-api-ebdpoints" src="./pharma-api-controllers.png" width="45%">
+</p>
+
+## 🏥 Farmácias
 
 ### Inclusão de Farmácia
 ```http
@@ -63,25 +76,25 @@ Para implementação das funcionalidades foram desenvolvidas os seguintes endpoi
 
 
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `cnpj`      | `long` | **Obrigatório** |
-| `razaoSocial` | `string` | **Obrigatório** |
-| `nomeFantasia` | `string` | **Obrigatório** |
-| `email` | `string` | **Obrigatório** |
-| `telefone` | `string` |Opcional|
-| `celular` | `string` | **Obrigatório**|
-| `endereco` |  | **Obrigatório**|
-| `cep` | `long` | **Obrigatório**|
-| `logradouro` | `string` | **Obrigatório**|
+| Parâmetro   | Tipo      | Descrição                           |
+| :---------- |:----------| :---------------------------------- |
+| `cnpj`      | `long`    | **Obrigatório** |
+| `razaoSocial` | `string`  | **Obrigatório** |
+| `nomeFantasia` | `string`  | **Obrigatório** |
+| `email` | `string`  | **Obrigatório** |
+| `telefone` | `string`  |Opcional|
+| `celular` | `string`  | **Obrigatório**|
+| `endereco` | `objeto`  | **Obrigatório**|
+| `cep` | `long`    | **Obrigatório**|
+| `logradouro` | `string`  | **Obrigatório**|
 | `numero` | `integer` | **Obrigatório**|
-| `cidade` | `string` | **Obrigatório**|
-| `estado` | `string` | **Obrigatório**|
-| `complemento` | `string` | Opcional|
-| `latitude` | `double` | **Obrigatório**|
-| `longitude` | `double` | **Obrigatório**|
+| `cidade` | `string`  | **Obrigatório**|
+| `estado` | `string`  | **Obrigatório**|
+| `complemento` | `string`  | Opcional|
+| `latitude` | `double`  | **Obrigatório**|
+| `longitude` | `double`  | **Obrigatório**|
 
-### Listagem de Farmácia
+### Listagem de Farmácias
 ```http
   GET /farmacias
 ```
@@ -94,7 +107,7 @@ Retorna lista de farmácias através de JSON.
 
 Retorna consulta do CNPJ informado através de JSON.
 
-## 💊 Medicamento
+## 💊 Medicamentos
 
 ### Inclusão de Medicamento
 
@@ -122,7 +135,7 @@ Retorna consulta do CNPJ informado através de JSON.
 | `preco` | `float`   | **Obrigatório**                                     |
 | `tipo` | `string`  | **Obrigatório** ENUM valor 'COMUM' ou 'CONTROLADO'; | 
 
-### Listagem de Medicamento
+### Listagem de Medicamentos
 
 ```http
   GET /medicamentos
