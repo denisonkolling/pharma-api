@@ -29,7 +29,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 Adicionalmente, a aplicação oferece a capacidade de cadastrar o estoque das farmácias, proporcionando opções para inclusão, deleção e transferência de medicamentos entre unidades.
 
-## Banco de Dados
+## 💽 Banco de Dados
 
 Diagrama de tabelas do projeto:
 
@@ -37,7 +37,7 @@ Diagrama de tabelas do projeto:
   <img alt="pharma-api-database" src="./pharma-api-db.png" width="45%">
 </p>
 
-## 🔖 Documentação da API
+## 📝 Documentação da API
 
 Para implementação das funcionalidades foram desenvolvidos os seguintes endpoints:
 
